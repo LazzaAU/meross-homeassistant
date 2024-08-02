@@ -75,7 +75,7 @@ def print_startup_message(http_devices: List[HttpDeviceInfo]):
 
     start_message = (
         f"\n"
-        f"===============================\n"
+        f"=========LARRY=================\n"
         f"Meross Cloud Custom component\n"
         f"Developed by Alberto Geniola\n"
         f"Low level library version: {MEROSS_IOT_VERSION}\n"
