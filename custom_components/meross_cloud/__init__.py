@@ -424,9 +424,18 @@ async def async_setup_entry(hass: HomeAssistant, config_entry: ConfigEntry):
 
         # Once the manager is ok and the first discovery was issued, we can proceed with platforms setup.
         for platform in MEROSS_PLATFORMS:
-            hass.async_create_task(
-                hass.config_entries.async_forward_entry_setup(config_entry, platform)
-            )
+            await hass.config_entries.async_forward_entry_setup(config_entry, platform)
+
+        return True
+
+    except ConfigEntryAuthFailed as ex:
+        notify_error(hass, title="Meross could not be configured", message=str(ex))
+        raise ex
+
+    except Exception as ex:
+        notify_error(hass, title="Meross could not be configured", message=str(ex))
+        log_exception(logger=_LOGGER, device=None)
+        return False
 
         def _http_api_polled(*args, **kwargs):
             # Whenever a new HTTP device is seen, we issue a discovery
